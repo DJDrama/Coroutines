@@ -2,46 +2,47 @@ package com.dj.coroutines_practice
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BasicCoroutineFragment : Fragment(R.layout.fragment_coroutine_basic) {
     private val TAG = this::class.simpleName
-    private val coroutineScopeMain = CoroutineScope(Dispatchers.Main)
     private val coroutineScopeMainImmediate = CoroutineScope(Dispatchers.Main.immediate)
 
+    private lateinit var button: Button
+    private lateinit var tvTime: TextView
+    private lateinit var tvMessage: TextView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        testDispatchersMain()
-        // testDispatchersMainImmediate()
-        // testLifecycleScope()
+        initViews(view)
     }
 
-    private fun testDispatchersMain() {
-        println("$TAG Zero")
-        coroutineScopeMain.launch {
-            println("$TAG First")
+    private fun initViews(view: View) {
+        tvTime = view.findViewById(R.id.tv_time)
+        tvMessage = view.findViewById(R.id.tv_message)
+
+        button = view.findViewById(R.id.button)
+        button.setOnClickListener {
+            coroutineScopeMainImmediate.launch {
+                tvMessage.text = "Started"
+                button.isEnabled = false
+                runTime()
+                tvMessage.text = "Ended"
+                button.isEnabled = true
+            }
         }
-        println("$TAG Second")
     }
 
-    private fun testDispatchersMainImmediate() {
-        println("$TAG Zero")
-        coroutineScopeMainImmediate.launch {
-            println("$TAG First")
+    private suspend fun runTime() {
+        var seconds = 5
+        while (seconds >= 0) {
+            tvTime.text = "${seconds--}"
+            delay(1000)
         }
-        println("$TAG Second")
-    }
-
-    private fun testLifecycleScope() {
-        println("$TAG Zero")
-        lifecycleScope.launch {
-            println("$TAG First")
-        }
-        println("$TAG Second")
     }
 }
