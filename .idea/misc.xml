@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25785207700101315" />
         <entry key="app/src/main/res/layout/fragment_coroutine_basic.xml" value="0.26469098277608916" />
+        <entry key="app/src/main/res/layout/fragment_suspend_coroutine.xml" value="0.43072916666666666" />
       </map>
     </option>
   </component>
